@@ -8,6 +8,6 @@ type EventRepository interface {
 	// Creation will be added in the future
 	// CreateEvent(event *Event) error
 	// CreateSpot(spot *Spot) error
-	// CreateTicket(ticket *Ticket) error
+	CreateTicket(ticket *Ticket) error
 	ReserveSpot(spotID, ticketID string) error
 }
