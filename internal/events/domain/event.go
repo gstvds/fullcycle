@@ -57,3 +57,13 @@ func (event Event) Validate() error {
 
 	return nil
 }
+
+func (event *Event) AddSpot(name string) (*Spot, error) {
+	spot, err := NewSpot(event, name)
+	if err != nil {
+		return nil, err
+	}
+
+	event.Spots = append(event.Spots, *spot)
+	return spot, nil
+}
