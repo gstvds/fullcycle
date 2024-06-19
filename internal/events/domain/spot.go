@@ -1,6 +1,10 @@
 package domain
 
-import "errors"
+import (
+	"errors"
+
+	"github.com/google/uuid"
+)
 
 var (
 	ErrInvalidSpotNumber       = errors.New("invalid spot number")
@@ -43,4 +47,19 @@ func (spot Spot) Validate() error {
 	}
 
 	return nil
+}
+
+func NewSpot(event *Event, name string) (*Spot, error) {
+	spot := &Spot{
+		ID:      uuid.New().String(),
+		EventID: event.ID,
+		Name:    name,
+		Status:  SpotStatusAvailable,
+	}
+
+	if err := spot.Validate(); err != nil {
+		return nil, err
+	}
+
+	return spot, nil
 }
