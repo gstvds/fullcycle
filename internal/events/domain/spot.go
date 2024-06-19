@@ -63,3 +63,14 @@ func NewSpot(event *Event, name string) (*Spot, error) {
 
 	return spot, nil
 }
+
+func (spot *Spot) Reserve(ticketID string) error {
+	if spot.Status == SpotStatusSold {
+		return ErrSpotAlreadyReserved
+	}
+
+	spot.Status = SpotStatusSold
+	spot.TicketID = ticketID
+
+	return nil
+}
