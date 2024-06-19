@@ -1,5 +1,16 @@
 package domain
 
+import "errors"
+
+var (
+	ErrInvalidSpotNumber       = errors.New("invalid spot number")
+	ErrSpotNotFound            = errors.New("spot not found")
+	ErrSpotAlreadyReserved     = errors.New("spot already reserved")
+	ErrSpotMustStartWithLetter = errors.New("spot name must start with a letter")
+	ErrSpotMustEndWithNumber   = errors.New("spot name must end with a number")
+	ErrSpotNameTooShort        = errors.New("spot name is too short")
+)
+
 type SpotStatus string
 
 const (
@@ -13,4 +24,23 @@ type Spot struct {
 	Name     string
 	Status   SpotStatus
 	TicketID string
+}
+
+func (spot Spot) Validate() error {
+	if spot.Name == "" {
+		return ErrInvalidSpotNumber
+	}
+
+	if len(spot.Name) < 2 {
+		return ErrSpotNameTooShort
+	}
+
+	if spot.Name[0] < 'A' || spot.Name[0] > 'Z' {
+		return ErrSpotMustStartWithLetter
+	}
+	if spot.Name[len(spot.Name)-1] < '0' || spot.Name[len(spot.Name)-1] > '9' {
+		return ErrSpotMustEndWithNumber
+	}
+
+	return nil
 }
